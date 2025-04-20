@@ -4,8 +4,8 @@ Donate link: https://shop.riverforest-wp.info/donate/
 Tags:  condition, plugin, state
 Requires at least: 4.7
 Requires PHP: 8.0
-Tested up to: 6.7
-Stable tag: 1.08
+Tested up to: 6.8
+Stable tag: 1.09
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,9 @@ none
 3. Dashboard widget
 
 == Changelog ==
+
+= [1.09] 2025/04/20 =
+* Fix - Loading the management screen.
 
 = 1.08 =
 Supported WordPress 6.4.

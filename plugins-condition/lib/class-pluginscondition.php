@@ -20,6 +20,10 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $pluginscondition = new PluginsCondition();
 
 /** ==================================================
@@ -82,7 +86,7 @@ class PluginsCondition {
 			$current = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
 		}
 
-		update_option( 'plg_cond_update_date_time', 'Plugins Condition ' . __( 'Last updated' ) . ' : ' . $current );
+		update_option( 'plg_cond_update_date_time', 'Plugins Condition ' . __( 'Last updated', 'plugins-condition' ) . ' : ' . $current );
 
 		return $links;
 	}
@@ -109,7 +113,7 @@ class PluginsCondition {
 			$current = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
 		}
 
-		update_option( 'plg_cond_update_date_time', 'Plugins Condition ' . __( 'Last updated' ) . ' : ' . $current );
+		update_option( 'plg_cond_update_date_time', 'Plugins Condition ' . __( 'Last updated', 'plugins-condition' ) . ' : ' . $current );
 	}
 
 	/** ==================================================
@@ -400,7 +404,7 @@ class PluginsCondition {
 			} else {
 				$installed_plugin_url = admin_url( 'plugins.php' );
 			}
-			$installed_plugin_html = '<a href="' . $installed_plugin_url . '" style="text-decoration: none; word-break: break-all;">' . __( 'Installed Plugins' ) . '</a>';
+			$installed_plugin_html = '<a href="' . $installed_plugin_url . '" style="text-decoration: none; word-break: break-all;">' . __( 'Installed Plugins', 'plugins-condition' ) . '</a>';
 
 			?>
 			<h3>
@@ -487,7 +491,7 @@ class PluginsCondition {
 			array_key_exists( 'version', $plugin_datas ) && ! empty( $plugin_datas['version'] ) ) {
 			$plugin_name    = $plugin_datas['name'];
 			$plugin_ver_num = $plugin_datas['version'];
-			$plugin_version = __( 'Version:' ) . ' ' . $plugin_ver_num;
+			$plugin_version = __( 'Version:', 'plugins-condition' ) . ' ' . $plugin_ver_num;
 		}
 
 		return $plugin_name;

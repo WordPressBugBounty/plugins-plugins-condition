@@ -20,6 +20,10 @@
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $pluginsconditionadmin = new PluginsConditionAdmin();
 
 /** ==================================================
@@ -54,7 +58,7 @@ class PluginsConditionAdmin {
 			$this_plugin = 'plugins-condition/pluginscondition.php';
 		}
 		if ( $file == $this_plugin ) {
-			$links[] = '<a href="' . admin_url( 'options-general.php?page=PluginsCondition' ) . '">' . __( 'Settings' ) . '</a>';
+			$links[] = '<a href="' . admin_url( 'options-general.php?page=PluginsCondition' ) . '">' . __( 'Settings', 'plugins-condition' ) . '</a>';
 		}
 		return $links;
 	}
@@ -76,7 +80,7 @@ class PluginsConditionAdmin {
 	public function plugin_options() {
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.' ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'plugins-condition' ) );
 		}
 
 		$this->options_updated();
@@ -101,7 +105,7 @@ class PluginsConditionAdmin {
 					<?php esc_html_e( 'Specifies the notification interval of the email to notify the plugin status.', 'plugins-condition' ); ?>
 					</p>
 					<input type="number" name="pc_notify_interval" min="1" max="90" value="<?php echo esc_attr( $plg_cond_notify_interval ); ?>">&nbsp;&nbsp;<?php esc_html_e( 'days', 'plugins-condition' ); ?>
-					<?php submit_button( __( 'Save Changes' ), 'large', 'plg-settings-apply', true ); ?>
+					<?php submit_button( __( 'Save Changes', 'plugins-condition' ), 'large', 'plg-settings-apply', true ); ?>
 				</div>
 				<hr>
 				<div style="margin: 5px; padding: 5px;">
@@ -153,7 +157,7 @@ class PluginsConditionAdmin {
 				}
 			}
 		}
-		$plugin_version = __( 'Version:' ) . ' ' . $plugin_ver_num;
+		$plugin_version = __( 'Version:', 'plugins-condition' ) . ' ' . $plugin_ver_num;
 		/* translators: FAQ Link & Slug */
 		$faq       = sprintf( __( 'https://wordpress.org/plugins/%s/faq', 'plugins-condition' ), $slug );
 		$support   = 'https://wordpress.org/support/plugin/' . $slug;
@@ -174,7 +178,7 @@ class PluginsConditionAdmin {
 		<a style="text-decoration: none;" href="<?php echo esc_url( $translate ); ?>" target="_blank" rel="noopener noreferrer">
 		<?php
 		/* translators: Plugin translation link */
-		echo esc_html( sprintf( __( 'Translations for %s' ), $plugin_name ) );
+		echo esc_html( sprintf( __( 'Translations for %s', 'plugins-condition' ), $plugin_name ) );
 		?>
 		</a> | <a style="text-decoration: none;" href="<?php echo esc_url( $facebook ); ?>" target="_blank" rel="noopener noreferrer"><span class="dashicons dashicons-facebook"></span></a> | <a style="text-decoration: none;" href="<?php echo esc_url( $twitter ); ?>" target="_blank" rel="noopener noreferrer"><span class="dashicons dashicons-twitter"></span></a> | <a style="text-decoration: none;" href="<?php echo esc_url( $youtube ); ?>" target="_blank" rel="noopener noreferrer"><span class="dashicons dashicons-video-alt3"></span></a>
 		</div>
@@ -183,7 +187,7 @@ class PluginsConditionAdmin {
 		<div style="width: 250px; height: 180px; margin: 5px; padding: 5px; border: #CCC 2px solid;">
 		<h3><?php esc_html_e( 'Please make a donation if you like my work or would like to further the development of this plugin.', 'plugins-condition' ); ?></h3>
 		<div style="text-align: right; margin: 5px; padding: 5px;"><span style="padding: 3px; color: #ffffff; background-color: #008000">Plugin Author</span> <span style="font-weight: bold;">Katsushi Kawamori</span></div>
-		<button type="button" style="margin: 5px; padding: 5px;" onclick="window.open('<?php echo esc_url( $donate ); ?>')"><?php esc_html_e( 'Donate to this plugin &#187;' ); ?></button>
+		<button type="button" style="margin: 5px; padding: 5px;" onclick="window.open('<?php echo esc_url( $donate ); ?>')"><?php esc_html_e( 'Donate to this plugin &#187;', 'plugins-condition' ); ?></button>
 		</div>
 
 		<?php
@@ -202,7 +206,7 @@ class PluginsConditionAdmin {
 					do_action( 'plugins_condition_notify_cron_stop' );
 					update_option( 'plg_cond_notify_interval', intval( $_POST['pc_notify_interval'] ) );
 					do_action( 'plugins_condition_notify_cron_start' );
-					echo '<div class="notice notice-success is-dismissible"><ul><li>' . esc_html( __( 'Settings' ) . ' --> ' . __( 'Settings saved.' ) ) . '</li></ul></div>';
+					echo '<div class="notice notice-success is-dismissible"><ul><li>' . esc_html( __( 'Settings', 'plugins-condition' ) . ' --> ' . __( 'Settings saved.', 'plugins-condition' ) ) . '</li></ul></div>';
 				}
 			}
 		}

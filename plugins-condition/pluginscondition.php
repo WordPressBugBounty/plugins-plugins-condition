@@ -3,7 +3,7 @@
  * Plugin Name: Plugins Condition
  * Plugin URI:  https://wordpress.org/plugins/plugins-condition/
  * Description: Display plugins condition.
- * Version:     1.08
+ * Version:     1.09
  * Author:      Katsushi Kawamori
  * Author URI:  https://riverforest-wp.info/
  * License:     GPLv2 or later
