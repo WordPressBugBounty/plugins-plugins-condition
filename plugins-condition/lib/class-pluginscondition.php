@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugins Condition
+ * Plugins Condition & Site Check
  *
  * @package    Plugins Condition
  * @subpackage PluginsCondition Main Functions
@@ -80,13 +80,9 @@ class PluginsCondition {
 			wp_schedule_event( time() + $notify_interval_int, $notify_interval_str, 'plugins_condition_notify_cron' );
 		}
 
-		if ( function_exists( 'wp_date' ) ) {
-			$current = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
-		} else {
-			$current = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
-		}
+		$current = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
 
-		update_option( 'plg_cond_update_date_time', 'Plugins Condition ' . __( 'Last updated', 'plugins-condition' ) . ' : ' . $current );
+		update_option( 'plg_cond_update_date_time', 'Plugins Condition & Site Check ' . __( 'Last updated', 'plugins-condition' ) . ' : ' . $current );
 
 		return $links;
 	}
@@ -107,13 +103,9 @@ class PluginsCondition {
 			list( $html_ver, $html_date ) = $this->main_func( $file, false );
 		}
 
-		if ( function_exists( 'wp_date' ) ) {
-			$current = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
-		} else {
-			$current = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
-		}
+		$current = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
 
-		update_option( 'plg_cond_update_date_time', 'Plugins Condition ' . __( 'Last updated', 'plugins-condition' ) . ' : ' . $current );
+		update_option( 'plg_cond_update_date_time', 'Plugins Condition & Site Check ' . __( 'Last updated', 'plugins-condition' ) . ' : ' . $current );
 	}
 
 	/** ==================================================
@@ -152,11 +144,11 @@ class PluginsCondition {
 	public function plugins_condition_notify_wp_cron() {
 
 		$adminmail = get_option( 'admin_email' );
-		$subject   = 'Plugins Condition - ' . get_option( 'blogname' );
+		$subject   = 'Plugins Condition & Site Check - ' . get_option( 'blogname' );
 
 		$plcaution = $this->plugins_condition_caution();
 		/* translators: interval days */
-		$content   = '<blockquote>' . sprintf( __( 'This email is delivered every %1$s days to the administrator by Plugins Condition.', 'plugins-condition' ), get_option( 'plg_cond_notify_interval', 30 ) ) . '</blockquote>';
+		$content   = '<blockquote>' . sprintf( __( 'This email is delivered every %1$s days to the administrator by Plugins Condition & Site Check.', 'plugins-condition' ), get_option( 'plg_cond_notify_interval', 30 ) ) . '</blockquote>';
 		$content  .= '<strong>' . get_option( 'plg_cond_update_date_time' ) . '</strong>' . $plcaution;
 
 		/* Mail Use HTML-Mails */
@@ -410,7 +402,7 @@ class PluginsCondition {
 			<h3>
 			<?php
 			/* translators: %s: Installed Plugins */
-			echo wp_kses_post( sprintf( __( 'Please read %s for the latest information.', 'plugins-condition' ), $installed_plugin_html ) );
+			echo wp_kses_post( sprintf( __( 'To update the "Plugin Information," please load your %s.', 'plugins-condition' ), $installed_plugin_html ) );
 			?>
 			</h3>
 			<?php
@@ -440,7 +432,9 @@ class PluginsCondition {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 		$plugins   = get_plugins();
-		$plcaution = null;
+		$plcaution = '<hr />';
+		$plcaution .= '<strong>' . __( 'Plugin Information', 'plugins-condition' ) . '</strong>';
+;
 		if ( ! empty( $wp_options ) ) {
 			foreach ( $wp_options as $wp_option ) {
 				$option_names[] = $wp_option->option_name;
@@ -460,6 +454,9 @@ class PluginsCondition {
 				}
 			}
 		}
+
+		$plcaution .= $this->users_list();
+		$plcaution .= $this->wp_content_check();
 
 		return $plcaution;
 	}
@@ -496,6 +493,91 @@ class PluginsCondition {
 
 		return $plugin_name;
 	}
+
+	/** ==================================================
+	 * User's List
+	 *
+	 * @return string $html  html for user's list.
+	 * @since 2.00
+	 */
+	private function users_list() {
+
+		$users = get_users();
+
+		global $wp_roles;
+
+		$html = '<hr />';
+		$html .= '<strong>' . __( 'User Information', 'plugins-condition' ) . '</strong>';
+		$html .= '<ul style="margin-top: 0;">';
+		foreach ( $users as $user ) {
+			/* Get roles */
+			$role_names = array();
+			if ( ! empty( $user->roles ) && is_array( $user->roles ) ) {
+				foreach ( $user->roles as $role_slug ) {
+					if ( isset( $wp_roles->roles[ $role_slug ] ) ) {
+						$role_names[] = translate_user_role( $wp_roles->roles[ $role_slug ]['name'] );
+					}
+				}
+			}
+			if ( ! empty( $role_names ) ) {
+				$display_roles = __( 'Role', 'plugins-condition' ) . ' : ' . implode( ', ', $role_names );
+			} else {
+				$display_roles = __( 'No role', 'plugins-condition' );
+			}
+
+			/* Get regiterd date time */
+			$registered_time = wp_date( 'Y-n-j H:i', strtotime( $user->user_registered ) );
+
+		    $html.= '<li>' . esc_html( $user->user_login ) . ' (' . esc_html( $user->user_email ) . ')</li><ul style="list-style-type: disc; padding-left: 20px;"><li>' . esc_html( $display_roles ) . '</li><li>' . __( 'Date and Time of Registration', 'plugins-condition' ) . ' : ' . esc_html( $registered_time ) . '</li></ul>';
+		}
+		$html.= '</ul>';
+
+		return $html;
+	}
+
+	/** ==================================================
+	 * Check list for wp-content
+	 *
+	 * @return string $html  html for wp-content check list.
+	 * @since 2.00
+	 */
+	private function wp_content_check() {
+
+		$upload_dir = wp_upload_dir();
+
+		$filetype = wp_check_filetype( $wp_content_dir . '/index.php' );
+		$file_size     = size_format( filesize( $file_path ) );
+        $modified_date = wp_date( 'Y-m-d H:i:s', filemtime( $file_path ) );
+
+		$content_php_files = glob( WP_CONTENT_DIR . '/*.php' );
+		$uploads_php_files = glob( $upload_dir['basedir'] . '/*.php');
+
+		$all_php_files = array_merge(
+			$content_php_files ?: [],
+			$uploads_php_files ?: []
+		);
+
+		$html = '<hr />';
+		$html .= '<strong>' . __( 'wp-content Information', 'plugins-condition' ) . '</strong>';
+		$html .= '<ul style="margin-top: 0;">';
+
+		if ( ! empty( $all_php_files ) ) {
+			foreach ( $all_php_files as $file_path ) {
+				if ( str_contains( $file_path, 'wp-content/uploads' ) ) {
+					$folder = 'wp-content/uploads';
+				} else {
+					$folder = 'wp-content';
+				}
+				$filename      = wp_basename( $file_path );
+				$file_size     = size_format( filesize( $file_path ) );
+				$modified_date = wp_date( 'Y-m-d H:i:s', filemtime( $file_path ) );
+			    $html .= '<li>' . esc_html( $folder . '/' . $filename ) . '</li><ul style="list-style-type: disc; padding-left: 20px;"><li>' . esc_html__( 'Last updated', 'plugins-condition' ) . ' : ' . $modified_date . '</li><li>' . esc_html__( 'Size', 'plugins-condition' ) . ' : ' . $file_size . '</li></ul>';
+			}
+		} else {
+			$html .= esc_html__( 'No PHP files were found in the "wp-content" or "wp-content/uploads" directories.', 'plugins-condition' );
+		}
+		$html.= '</ul>';
+
+		return $html;
+	}
 }
-
-

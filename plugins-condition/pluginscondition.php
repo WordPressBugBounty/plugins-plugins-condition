@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Plugins Condition
+ * Plugin Name: Plugins Condition & Site Check
  * Plugin URI:  https://wordpress.org/plugins/plugins-condition/
- * Description: Display plugins condition.
- * Version:     1.09
+ * Description: Displays plugin conditions and performs a basic site check.
+ * Version:     2.00
  * Author:      Katsushi Kawamori
  * Author URI:  https://riverforest-wp.info/
  * License:     GPLv2 or later
@@ -28,6 +28,10 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'PluginsConditionAdmin' ) ) {
 	require_once __DIR__ . '/lib/class-pluginsconditionadmin.php';

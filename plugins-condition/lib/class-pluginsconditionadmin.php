@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugins Condition
+ * Plugins Condition & Site Check
  *
  * @package    Plugins Condition
  * @subpackage PluginsConditionAdmin Management screen
@@ -69,7 +69,7 @@ class PluginsConditionAdmin {
 	 * @since 1.01
 	 */
 	public function plugin_menu() {
-		add_options_page( 'PluginsCondition Options', 'Plugins Condition', 'manage_options', 'PluginsCondition', array( $this, 'plugin_options' ) );
+		add_options_page( 'PluginsCondition Options', 'Plugins Condition & Site Check', 'manage_options', 'PluginsCondition', array( $this, 'plugin_options' ) );
 	}
 
 	/** ==================================================
@@ -90,7 +90,7 @@ class PluginsConditionAdmin {
 
 		?>
 		<div class="wrap">
-		<h2>Plugins Condition</h2>
+		<h2>Plugins Condition & Site Check</h2>
 
 			<details>
 			<summary><strong><?php esc_html_e( 'Various links of this plugin', 'plugins-condition' ); ?></strong></summary>

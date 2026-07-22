@@ -1,19 +1,20 @@
-=== Plugins Condition ===
+=== Plugins Condition & Site Check ===
 Contributors: Katsushi Kawamori
 Donate link: https://shop.riverforest-wp.info/donate/
-Tags:  condition, plugin, state
-Requires at least: 4.7
+Tags:  condition, check, state
+Requires at least: 5.9
 Requires PHP: 8.0
 Tested up to: 7.0
-Stable tag: 1.09
+Stable tag: 2.00
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Display plugins condition.
+Display plugins condition and performs a basic site check.
 
 == Description ==
 
 The plugins screen shows the tested version and the last updated.
+The "Basic Site Check" displays user information and wp-content information.
 
 = Unofficial & closed plugin =
 * It will be displayed in red.
@@ -23,8 +24,12 @@ The plugins screen shows the tested version and the last updated.
 * If the verified latest version is different from the current WordPress version, the version is shown in red.
 * It indicates in red when the last update date is over one year.
 
+= Basic Site Check =
+* User Information.
+* wp-content Information.
+
 = Display on Dashboard =
-* Display the plugins with the problem on the dashboard.
+* Display the plugins and basic site check with the problem on the dashboard.
 * Can see the data collected automatically once a day on the dashboard.
 
 = Notification email =
@@ -46,6 +51,9 @@ none
 3. Dashboard widget
 
 == Changelog ==
+
+= [2.00] 2026/07/22 =
+* Added - Basic Site Check.
 
 = [1.09] 2025/04/20 =
 * Fix - Loading the management screen.
