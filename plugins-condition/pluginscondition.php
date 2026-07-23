@@ -3,7 +3,7 @@
  * Plugin Name: Plugins Condition & Site Check
  * Plugin URI:  https://wordpress.org/plugins/plugins-condition/
  * Description: Displays plugin conditions and performs a basic site check.
- * Version:     2.00
+ * Version:     2.01
  * Author:      Katsushi Kawamori
  * Author URI:  https://riverforest-wp.info/
  * License:     GPLv2 or later

@@ -88,6 +88,17 @@ class PluginsConditionAdmin {
 		$scriptname = admin_url( 'options-general.php?page=PluginsCondition' );
 		$plg_cond_notify_interval = get_option( 'plg_cond_notify_interval', 30 );
 
+		$next_notify = null;
+		$event = wp_get_scheduled_event( 'plugins_condition_notify_cron' );
+		if ( $event ) {
+			$next_day = wp_date( 'Y/m/d H:i:s', $event->timestamp,	wp_timezone() );
+			/* translators:  days later */
+			$next_interval_days = sprintf( __( '%d days later', 'plugins-condition' ), $event->interval / DAY_IN_SECONDS );
+			$next_notify = $next_day . ' (' . $next_interval_days . ')';
+		} else {
+			$next_notify = __( 'No notification interval has been set.', 'plugins-condition' );
+		}
+
 		?>
 		<div class="wrap">
 		<h2>Plugins Condition & Site Check</h2>
@@ -105,7 +116,13 @@ class PluginsConditionAdmin {
 					<?php esc_html_e( 'Specifies the notification interval of the email to notify the plugin status.', 'plugins-condition' ); ?>
 					</p>
 					<input type="number" name="pc_notify_interval" min="1" max="90" value="<?php echo esc_attr( $plg_cond_notify_interval ); ?>">&nbsp;&nbsp;<?php esc_html_e( 'days', 'plugins-condition' ); ?>
+					<div style="padding: 5px;">
+						<strong><?php esc_html_e( 'Next Notice', 'plugins-condition' ); ?> : <?php echo esc_html( $next_notify ); ?></strong>
+					</div>
+					<div style="display: flex; gap: 10px;">
 					<?php submit_button( __( 'Save Changes', 'plugins-condition' ), 'large', 'plg-settings-apply', true ); ?>
+					<?php submit_button( __( 'Force Email Send', 'plugins-condition' ), 'large', 'plg-cron-run', true ); ?>
+					</div>
 				</div>
 				<hr>
 				<div style="margin: 5px; padding: 5px;">
@@ -208,6 +225,13 @@ class PluginsConditionAdmin {
 					do_action( 'plugins_condition_notify_cron_start' );
 					echo '<div class="notice notice-success is-dismissible"><ul><li>' . esc_html( __( 'Settings', 'plugins-condition' ) . ' --> ' . __( 'Settings saved.', 'plugins-condition' ) ) . '</li></ul></div>';
 				}
+			}
+		}
+
+		if ( isset( $_POST['plg-cron-run'] ) && ! empty( $_POST['plg-cron-run'] ) ) {
+			if ( check_admin_referer( 'plg_cond_settings', 'pluginscondition_settings' ) ) {
+				do_action( 'plugins_condition_notify_cron_now' );
+				echo '<div class="notice notice-success is-dismissible"><ul><li>' . esc_html( __( 'The email has been sent.', 'plugins-condition' ) ) . '</li></ul></div>';
 			}
 		}
 

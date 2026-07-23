@@ -49,6 +49,7 @@ class PluginsCondition {
 		add_action( 'plugins_condition_notify_cron', array( $this, 'plugins_condition_notify_wp_cron' ) );
 		add_action( 'plugins_condition_notify_cron_start', array( $this, 'notify_cron_start' ) );
 		add_action( 'plugins_condition_notify_cron_stop', array( $this, 'notify_cron_stop' ) );
+		add_action( 'plugins_condition_notify_cron_now', array( $this, 'single_cron_run' ) );
 		register_activation_hook( plugin_dir_path( __DIR__ ) . 'pluginscondition.php', array( $this, 'notify_cron_start' ) );
 		register_deactivation_hook( plugin_dir_path( __DIR__ ) . 'pluginscondition.php', array( $this, 'notify_cron_stop' ) );
 	}
@@ -219,6 +220,22 @@ class PluginsCondition {
 	public function notify_cron_stop() {
 
 		wp_clear_scheduled_hook( 'plugins_condition_notify_cron' );
+	}
+
+	/** ==================================================
+	 * Notify Single Cron Run
+	 *
+	 * @since 2.01
+	 */
+	public function single_cron_run() {
+
+		wp_schedule_single_event(
+			time(),
+			'plugins_condition_notify_cron',
+			array( 'plc_now' ),
+		);
+
+		spawn_cron();
 	}
 
 	/** ==================================================

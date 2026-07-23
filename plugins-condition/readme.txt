@@ -5,7 +5,7 @@ Tags:  condition, check, state
 Requires at least: 5.9
 Requires PHP: 8.0
 Tested up to: 7.0
-Stable tag: 2.00
+Stable tag: 2.01
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,10 @@ none
 3. Dashboard widget
 
 == Changelog ==
+
+= [2.01] 2026/07/23 =
+* Added - Display of Email Notification Interval.
+* Added - Force Email Notifications.
 
 = [2.00] 2026/07/22 =
 * Added - Basic Site Check.
