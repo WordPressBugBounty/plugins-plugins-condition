@@ -562,8 +562,8 @@ class PluginsCondition {
 
 		$upload_dir = wp_upload_dir();
 
-		$filetype = wp_check_filetype( $wp_content_dir . '/index.php' );
-		$file_size     = size_format( filesize( $file_path ) );
+		$file_path = WP_CONTENT_DIR . '/index.php';
+		$file_size = size_format( wp_filesize( $file_path ) );
         $modified_date = wp_date( 'Y-m-d H:i:s', filemtime( $file_path ) );
 
 		$content_php_files = glob( WP_CONTENT_DIR . '/*.php' );
@@ -586,7 +586,7 @@ class PluginsCondition {
 					$folder = 'wp-content';
 				}
 				$filename      = wp_basename( $file_path );
-				$file_size     = size_format( filesize( $file_path ) );
+				$file_size     = size_format( wp_filesize( $file_path ) );
 				$modified_date = wp_date( 'Y-m-d H:i:s', filemtime( $file_path ) );
 			    $html .= '<li>' . esc_html( $folder . '/' . $filename ) . '</li><ul style="list-style-type: disc; padding-left: 20px;"><li>' . esc_html__( 'Last updated', 'plugins-condition' ) . ' : ' . $modified_date . '</li><li>' . esc_html__( 'Size', 'plugins-condition' ) . ' : ' . $file_size . '</li></ul>';
 			}
